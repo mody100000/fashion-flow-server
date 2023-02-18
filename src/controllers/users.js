@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const { TOKEN_LIFETIME } = require('../config/constants')
 
-// TODO: install eslint
 const login = async (req, res, next) => {
   const schema = joi.object({
     username: joi.string().required(),
