@@ -1,17 +1,17 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const { TOKEN_LIFETIME } = require('../config/constants')
-const UserModel = require('../models/user')
+const User = require('../models/user')
 const ErrorResponse = require('../utils/ErrorResponse')
 
 const findUserById = async id => {
-  const user = await UserModel.findById(id)
+  const user = await User.findById(id)
   if (!user) return null
   return user
 }
 
 const findByUsername = async username => {
-  const user = await UserModel.findOne({ username })
+  const user = await User.findOne({ username })
   if (!user) return null
   return user
 }

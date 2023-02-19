@@ -15,11 +15,10 @@ const UserSchema = new mongoose.Schema({
                 throw new Error("Password Length Not Sufficent");
             }
         }
-
     },
     emailVerified: {
         type: Boolean,
-        default : false
+        default : false,
     },
     email : {
         type: String,
@@ -33,8 +32,8 @@ const UserSchema = new mongoose.Schema({
         }
     }
 
-})
+} , {timestamps : true})
 
-const UserModel = mongoose.model("User" , UserSchema)
+const User = mongoose.model("User" , UserSchema)
 
-module.exports = UserModel
+module.exports = User
