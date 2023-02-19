@@ -1,6 +1,7 @@
 const express = require('express')
 const http = require('http')
 const dotenv = require('dotenv')
+const cors = require("cors")
 const app = express()
 require('colors')
 dotenv.config()
@@ -9,6 +10,10 @@ dotenv.config()
 require('./config/db')
 
 // middlewares
+// TODO: add only the front end origin
+app.use(cors({
+    credentials : true
+}))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
