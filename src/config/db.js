@@ -8,7 +8,7 @@ mongoose
     useUnifiedTopology: true,
     sslValidate: true,
   })
-  .then(() => {
+  .then(async() => {
     console.log('database is connected'.green)
   })
   .catch(err => {

@@ -43,7 +43,7 @@ const ProductSchema = new mongoose.Schema(
     },
     discount : {
         type : Number,
-        required : false,
+        default : 0,
         validate(value) {
             if (value< 0 || value > 100) {
               throw new Error("disscount can't be less than 0 or greater than 100")

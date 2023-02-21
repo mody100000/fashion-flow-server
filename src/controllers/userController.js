@@ -1,8 +1,5 @@
 const errorHandler = require('../utils/errorHandler')
-const {
-  checkUserLogin,
-  generateUserToken,
-} = require('../services/userServices')
+const userService = require('../services/userService')
 // const ErrorResponse = require('../utils/ErrorResponse')
 const validateLoginInput = require('../validation/login')
 
@@ -13,11 +10,11 @@ const login = async (req, res) => {
   // no errors
   const { username, password } = value
 
-  const user = await checkUserLogin(username, password)
+  const user = await userService.checkUserLogin(username, password)
   if (user.error) return errorHandler(user.error , res)
   // user is logged in successfully
 
-  const accessToken = await generateUserToken(user)
+  const accessToken = await userService.generateUserToken(user)
 
   res.status(200).json({
     success: true,
