@@ -6,7 +6,7 @@ const createCategory = async (req , res) => {
     const {success , error , value} = validateCreateCategoryInput(req.body).validate()
     if(! success) return errorHandler(error , res)
 
-    return await categoryService.createCategory(value)
+    return await categoryService.createCategory(value , res)
 }
 
 module.exports = {

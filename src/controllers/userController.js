@@ -4,6 +4,7 @@ const userService = require('../services/userService')
 const validateLoginInput = require('../validation/login')
 
 const login = async (req, res) => {
+  // TODO: use base validator class
   const { error, value } = validateLoginInput(req.body)
   if (error) return errorHandler({...error, from : "joi"} , res)
 

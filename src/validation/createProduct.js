@@ -6,7 +6,7 @@ const schema = Joi.object({
     name: Joi.string().required(),
     price: Joi.number().required(),
     sizes: Joi.array().items({
-         label : Joi.string().allow(PRODUCT_SIZES),
+         label : Joi.string().required().valid(...PRODUCT_SIZES).label("size label"),
          stock: Joi.number().default(0)
     }),
     description: Joi.string(),
