@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const { PRODUCT_SIZES } = require('../constant')
 
 // TODO: create reviews model
 const ProductSchema = new mongoose.Schema(
@@ -18,21 +19,21 @@ const ProductSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    stock: {
-      type: Number,
-      default: 0,
-      validate(value) {
-        if (value < 0) {
-          throw new Error("stock can't be less than 0")
-        }
-      },
-    },
     sizes: [
       {
+        stock: {
+          type: Number,
+          default: 0,
+          validate(value) {
+            if (value < 0) {
+              throw new Error("stock can't be less than 0")
+            }
+          },
+        },
         label: {
           type: String,
           required: true,
-          enum: ['xs' ,'sm', 'md', 'lg', 'xl', 'xxl', '3xl', '4xl' ,'5xl', "extra large"],
+          enum: PRODUCT_SIZES,
         },
       },
     ],

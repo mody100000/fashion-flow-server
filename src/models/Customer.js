@@ -11,6 +11,7 @@ const CustomerSchema = new mongoose.Schema({
   },
   age: {
     type: Number,
+    required: false
   },
 })
 
