@@ -37,22 +37,22 @@ const ProductSchema = new mongoose.Schema(
         },
       },
     ],
-    description : {
-        type : String,
-        required : false
+    description: {
+      type: String,
+      required: false,
     },
-    discount : {
-        type : Number,
-        default : 0,
-        validate(value) {
-            if (value< 0 || value > 100) {
-              throw new Error("disscount can't be less than 0 or greater than 100")
-            }
+    discount: {
+      type: Number,
+      default: 0,
+      validate(value) {
+        if (value < 0 || value > 100) {
+          throw new Error("disscount can't be less than 0 or greater than 100")
         }
+      },
     },
     category: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category',
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Category',
     },
   },
   { timestamps: true }
