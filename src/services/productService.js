@@ -1,30 +1,33 @@
 const Product = require('../models/Product')
+const isValidObjectId = require('../utils/isValidObjectId')
 
 const createProduct = async (createProductInput, res) => {
-  const createdProduct = await Product.create(createProductInput)
-  return createdProduct
+    const createdProduct = await Product.create(createProductInput)
+    return createdProduct
 }
 
-const getAllProducts = async (req, res) => {
-  const product = await Product.find().sort('name')
-  res.send(product)
+const getAllProducts = async () => {
+    const products = await Product.find().sort('name')
+    return products
 }
 
-const getProduct = async (req, res) => {
-  const product = await Product.findById(req.params.id)
-  if (!product) return res.status(404).send('product not found')
-  res.send(product)
+const getProduct = async id => {
+    if (!isValidObjectId(id)) return null
+    const product = await Product.findById(id)
+    if (!product) return null
+    return product
 }
 
-const deleteProduct = async (req, res) => {
-  const product = await Product.findByIdAndRemove(req.params.id)
-  if (!product) return res.status(404).send('invalid id')
-  res.send(product)
+const deleteProduct = async id => {
+    if (!isValidObjectId(id)) return null
+    const deleteProduct = await Product.findByIdAndRemove(id)
+    if (!deleteProduct) return null
+    return deleteProduct
 }
 
 module.exports = {
-  createProduct,
-  getAllProducts,
-  getProduct,
-  deleteProduct,
+    createProduct,
+    getAllProducts,
+    getProduct,
+    deleteProduct,
 }
