@@ -25,12 +25,6 @@ const deleteProduct = async id => {
     return deleteProduct
 }
 
-// const deleteProduct = async (req, res) => {
-//     const product = await Product.findByIdAndRemove(req.params.id)
-//     if (!product) return res.status(404).send('invalid id')
-//     res.send(product)
-// }
-
 module.exports = {
     createProduct,
     getAllProducts,
