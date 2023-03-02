@@ -1,14 +1,42 @@
-const errorHandler = require("../utils/errorHandler")
-const validateCreateCategoryInput = require("../validation/createCategory")
-const categoryService = require("../services/categoryService")
+const errorHandler = require('../utils/errorHandler')
+const validateCreateCategoryInput = require('../validation/createCategory')
+const categoryService = require('../services/categoryService')
 
-const createCategory = async (req , res) => {
-    const {success , error , value} = validateCreateCategoryInput(req.body).validate()
-    if(! success) return errorHandler(error , res)
-
-    return await categoryService.createCategory(value , res)
+const createCategory = async (req, res) => {
+    try {
+        const { success, error, value } = validateCreateCategoryInput(
+            req.body
+        ).validate()
+        if (!success) throw error
+        const newCategory = await categoryService.createCategory(value, res)
+        res.status(201).json(newCategory)
+    } catch (err) {
+        errorHandler({ ...err, resource: 'category' }, res)
+    }
 }
 
+const categories = async (req, res) => {
+    const categories = await categoryService.getAllCategories()
+    res.json(categories)
+}
+
+const category = async (req, res) => {
+    const catId = req.params.id
+    const category = await categoryService.getCategory(catId)
+    if (!category) return res.status(404).json({ msg: 'category not found' })
+    res.json(category)
+}
+
+const deleteCategory = async (req, res) => {
+    const catId = req.params.id
+    const deletedCategory = await categoryService.deleteCategory(catId)
+    if (!deletedCategory)
+        return res.status(404).json({ msg: 'category not found' })
+    res.json(deletedCategory)
+}
 module.exports = {
-    createCategory
+    createCategory,
+    categories,
+    category,
+    deleteCategory,
 }

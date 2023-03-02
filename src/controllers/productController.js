@@ -1,14 +1,40 @@
-const errorHandler = require("../utils/errorHandler")
-const validateCreateProductInput = require("../validation/createProduct")
-const productService = require('../services/productService');
+const errorHandler = require('../utils/errorHandler')
+const validateCreateProductInput = require('../validation/createProduct')
+const productService = require('../services/productService')
 
-const createProduct = async (req , res) => {
-    const {success , error , value} = validateCreateProductInput(req.body).validate()
-    if(! success) return errorHandler(error , res)
+const createProduct = async (req, res) => {
+    const { success, error, value } = validateCreateProductInput(
+        req.body
+    ).validate()
+    if (!success) return errorHandler(error, res)
 
-    return await productService.createProduct(value , res)
+    const newProduct = await productService.createProduct(value)
+    res.status(201).json(newProduct)
+}
+
+const products = async (req, res) => {
+    const products = await productService.getAllProducts()
+    res.json(products)
+}
+
+const product = async (req, res) => {
+    const prodId = req.params.id
+    const product = await productService.getProduct(prodId)
+    if (!product) return res.status(404).json({ msg: 'product not found' })
+    res.json(product)
+}
+
+const deleteProduct = async (req, res) => {
+    const prodId = req.params.id
+    const deleteProduct = await productService.deleteProduct(prodId)
+    if (!deleteProduct)
+        return res.status(404).json({ msg: 'product not found' })
+    res.json(deleteProduct)
 }
 
 module.exports = {
-    createProduct
+    createProduct,
+    products,
+    product,
+    deleteProduct,
 }

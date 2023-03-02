@@ -1,0 +1,10 @@
+const { Router } = require('express')
+const router = Router()
+const customerController = require('../controllers/customerController')
+
+router.post('/', customerController.createCustomer)
+router.get('/', customerController.customers)
+router.get('/:id', customerController.customer)
+router.delete('/:id', customerController.deleteCustomer)
+
+module.exports = router
