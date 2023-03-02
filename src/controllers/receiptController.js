@@ -15,6 +15,30 @@ const createReceipt = async (req, res) => {
         errorHandler({ ...err, resource: 'receipt' }, res)
     }
 }
+
+const receipts = async (req, res) => {
+    const receipts = await receiptService.getAllReceipts()
+    res.json(receipts)
+}
+
+const receipt = async (req, res) => {
+    const recId = req.params.id
+    const receipt = await receiptService.getReceipt(recId)
+    if (!receipt) return res.status(404).json({ msg: 'receipt not found' })
+    res.json(receipt)
+}
+
+const deleteReceipt = async (req, res) => {
+    const recId = req.params.id
+    const deleteReceipt = await receiptService.deleteReceipt(recId)
+    if (!deleteReceipt)
+        return res.status(404).json({ msg: 'receipt is not found' })
+    res.json(deleteReceipt)
+}
+
 module.exports = {
     createReceipt,
+    receipts,
+    receipt,
+    deleteReceipt,
 }
