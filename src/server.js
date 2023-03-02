@@ -24,6 +24,7 @@ app.use('/api/users', require('./routes/userRoutes'))
 app.use('/api/category', require('./routes/categoryRoutes'))
 app.use('/api/product', require('./routes/productRoutes'))
 app.use('/api/receipt', require('./routes/receiptRoutes'))
+app.use('/api/customer', require('./routes/customerRoutes'))
 
 const server = http.createServer(app)
 const port = process.env.PORT || 8000
