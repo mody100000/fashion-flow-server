@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt')
+// const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const { TOKEN_LIFETIME } = require('../config/constants')
 const User = require('../models/user')
@@ -22,7 +22,9 @@ const checkUserLogin = async (username, password) => {
 
   // TODO: check for email verification
   // check for password
-  const match = await bcrypt.compare(password, user.password)
+  // TODO: use bcrypt
+  // const match = await bcrypt.compare(password, user.password)
+  const match = password === user.password
   if (!match) return { error: new ErrorResponse("username or password is incorrect" , 400) }
 
   return user
