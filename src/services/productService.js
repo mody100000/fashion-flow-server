@@ -1,7 +1,7 @@
 const Product = require('../models/Product')
 const isValidObjectId = require('../utils/isValidObjectId')
 
-const createProduct = async (createProductInput, res) => {
+const createProduct = async (createProductInput) => {
     const createdProduct = await Product.create(createProductInput)
     return createdProduct
 }

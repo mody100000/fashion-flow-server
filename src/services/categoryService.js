@@ -1,5 +1,4 @@
 const Category = require('../models/Category')
-const errorHandler = require('../utils/errorHandler')
 const isValidObjectId = require('../utils/isValidObjectId')
 
 const createCategory = async input => {
