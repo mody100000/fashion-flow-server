@@ -36,7 +36,7 @@ const deleteCategory = async (req, res) => {
     res.json(deletedCategory)
 }
 const getCategoryReport = async (req, res) => {
-    const { error, value } = validateCategoryReport(req.body).validate()
+    const { error, value } = validateCategoryReport(req.params).validate()
     if (error) return errorHandler({ ...error, from: 'joi' }, res)
     console.log(value)
     const report = await categoryService.categoryReport({

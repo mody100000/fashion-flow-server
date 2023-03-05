@@ -28,18 +28,26 @@ const deleteCategory = async id => {
 }
 const categoryReport = async options => {
     const finalMonths = options.monthsBefore || 5
-    // TODO: think about caching this
+    
+    const untilDate = moment().subtract(finalMonths, 'months')
+    const cats =  await Category.find({
+            createdAt: { $gte: untilDate },
+    })
 
-    return await Promise.all(
-        _.range(finalMonths).map(async num => {
-            const date = moment().subtract(finalMonths - num - 1, 'months')
-            const categories = await Category.find({
-                createdAt: { $lte: date },
+    const report = {}
+      await Promise.all( _.range(finalMonths).map(async num => {
+            const monthsAgo = finalMonths - num - 1
+            const dueDate = moment().subtract(monthsAgo, 'months')
+            
+            report[dueDate.format("MMMM")] = []
+            const monthReport = cats.filter(c => {
+                return moment(c.createdAt).isSameOrBefore(dueDate)
             })
-            console.log(categories)
-            return categories
+            report[dueDate.format("MMMM")].push(...monthReport)
         })
-    )
+       )
+
+       return report
 }
 module.exports = {
     createCategory,
