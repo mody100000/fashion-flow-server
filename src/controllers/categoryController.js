@@ -38,7 +38,6 @@ const deleteCategory = async (req, res) => {
 const getCategoryReport = async (req, res) => {
     const { error, value } = validateCategoryReport(req.params).validate()
     if (error) return errorHandler({ ...error, from: 'joi' }, res)
-    console.log(value)
     const report = await categoryService.categoryReport({
         monthsBefore: value.months,
     })

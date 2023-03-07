@@ -1,6 +1,7 @@
 const errorHandler = require('../utils/errorHandler')
 const validateCreateProductInput = require('../validation/createProduct')
 const productService = require('../services/productService')
+const validateCategoryReport = require('../validation/categoryReport')
 
 const createProduct = async (req, res) => {
     const { success, error, value } = validateCreateProductInput(
@@ -31,10 +32,18 @@ const deleteProduct = async (req, res) => {
         return res.status(404).json({ msg: 'product not found' })
     res.json(deleteProduct)
 }
-
+const getProductReport = async (req, res) => {
+    const { error, value } = validateCategoryReport(req.params).validate()
+    if (error) return errorHandler({ ...error, from: 'joi' }, res)
+    const report = await productService.productReport({
+        monthsBefore: value.months,
+    })
+    res.json(report)
+}
 module.exports = {
     createProduct,
     products,
     product,
     deleteProduct,
+    getProductReport,
 }
