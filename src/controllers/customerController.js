@@ -1,6 +1,7 @@
 const customerServies = require('../services/customerServies')
 const errorHandler = require('../utils/errorHandler')
 const validateCreateCustomerInput = require('../validation/createCustomer')
+const validateReport = require('../validation/report')
 
 const createCustomer = async (req, res) => {
     try {
@@ -36,9 +37,19 @@ const deleteCustomer = async (req, res) => {
     res.json(deleteCustomer)
 }
 
+const getCustomerReport = async (req, res) => {
+    const { error, value } = validateReport(req.params).validate()
+    if (error) return errorHandler({ ...error, from: 'joi' }, res)
+    const report = await customerServies.customerReport({
+        monthsBefore: value.months,
+    })
+    res.json(report)
+}
+
 module.exports = {
     createCustomer,
     customers,
     customer,
     deleteCustomer,
+    getCustomerReport,
 }
