@@ -1,6 +1,7 @@
 const Category = require('../models/Category')
-const errorHandler = require('../utils/errorHandler')
 const isValidObjectId = require('../utils/isValidObjectId')
+const _ = require('lodash')
+const moment = require('moment')
 
 const createCategory = async input => {
     const createdCategory = await Category.create(input)
@@ -25,9 +26,34 @@ const deleteCategory = async id => {
     if (!deletedCategory) return null
     return deletedCategory
 }
+const categoryReport = async options => {
+    const finalMonths = options.monthsBefore || 5
+
+    const untilDate = moment().subtract(finalMonths, 'months')
+    const cats = await Category.find({
+        createdAt: { $gte: untilDate },
+    })
+
+    const report = {}
+    await Promise.all(
+        _.range(finalMonths).map(async num => {
+            const monthsAgo = finalMonths - num - 1
+            const dueDate = moment().subtract(monthsAgo, 'months')
+
+            report[dueDate.format('MMM')] = []
+            const monthReport = cats.filter(c => {
+                return moment(c.createdAt).isSameOrBefore(dueDate)
+            })
+            report[dueDate.format('MMM')].push(...monthReport)
+        })
+    )
+
+    return report
+}
 module.exports = {
     createCategory,
     getAllCategories,
     getCategory,
     deleteCategory,
+    categoryReport,
 }

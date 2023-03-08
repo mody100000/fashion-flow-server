@@ -1,6 +1,7 @@
 const errorHandler = require('../utils/errorHandler')
 const validateCreateCategoryInput = require('../validation/createCategory')
 const categoryService = require('../services/categoryService')
+const validateCategoryReport = require('../validation/categoryReport')
 
 const createCategory = async (req, res) => {
     try {
@@ -34,9 +35,18 @@ const deleteCategory = async (req, res) => {
         return res.status(404).json({ msg: 'category not found' })
     res.json(deletedCategory)
 }
+const getCategoryReport = async (req, res) => {
+    const { error, value } = validateCategoryReport(req.params).validate()
+    if (error) return errorHandler({ ...error, from: 'joi' }, res)
+    const report = await categoryService.categoryReport({
+        monthsBefore: value.months,
+    })
+    res.json(report)
+}
 module.exports = {
     createCategory,
     categories,
     category,
     deleteCategory,
+    getCategoryReport,
 }
