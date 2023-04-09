@@ -29,11 +29,19 @@ const category = async (req, res) => {
 }
 
 const deleteCategory = async (req, res) => {
+   try{
     const catId = req.params.id
     const deletedCategory = await categoryService.deleteCategory(catId)
+    
     if (!deletedCategory)
-        return res.status(404).json({ msg: 'category not found' })
+    return res.status(404).json({ msg: 'category not found' })
+    
     res.json(deletedCategory)
+   }
+   catch (err) {
+    errorHandler(err, res)
+}
+   
 }
 const getCategoryReport = async (req, res) => {
     const { error, value } = validateReport(req.params).validate()

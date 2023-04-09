@@ -1,4 +1,6 @@
 const Category = require('../models/Category')
+const Product = require('../models/Product')
+const ErrorResponse = require('../utils/ErrorResponse')
 const isValidObjectId = require('../utils/isValidObjectId')
 const _ = require('lodash')
 const moment = require('moment')
@@ -40,6 +42,11 @@ const getCategory = async id => {
 
 const deleteCategory = async id => {
     if (!isValidObjectId(id)) return null
+    
+    const products = await Product.find().where("category").equals(id)
+
+    if(products.length > 0) throw new ErrorResponse("you can't delete this category" , 400);
+    
     const deletedCategory = await Category.findByIdAndRemove(id)
     if (!deletedCategory) return null
     return deletedCategory

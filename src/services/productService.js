@@ -50,10 +50,16 @@ const productReport = async options => {
 
     return report
 }
+
+const updateProduct = async (id , data) => {
+    const product = await Product.findOneAndUpdate({_id : id} , data)
+    return product
+}
 module.exports = {
     createProduct,
     getAllProducts,
     getProduct,
     deleteProduct,
     productReport,
+    updateProduct
 }
