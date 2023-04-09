@@ -1,13 +1,14 @@
 const Receipt = require('../models/Receipt')
 const isValidObjectId = require('../utils/isValidObjectId')
-
+const uuid = require('uuid')
 const createReceipt = async input => {
+    input['number'] = uuid.v4()
     const createdReceipt = await Receipt.create(input)
     return createdReceipt
 }
 
 const getAllReceipts = async () => {
-    const receipts = await Receipt.find().sort('name')
+    const receipts = await Receipt.find().sort({ createdAt: -1 })
     return receipts
 }
 

@@ -9,8 +9,26 @@ const createCategory = async input => {
 }
 
 const getAllCategories = async () => {
-    const categories = await Category.find().sort('name')
-    return categories
+    const categoriesWithProductsCount = await Category.aggregate([
+        {
+            $lookup: {
+                from: 'products',
+                localField: '_id',
+                foreignField: 'category',
+                as: 'products',
+            },
+        },
+        {
+            $project: {
+                _id: 1,
+                label: 1,
+                icon: 1,
+                productsCount: { $size: '$products' },
+            },
+        },
+    ])
+
+    return categoriesWithProductsCount
 }
 
 const getCategory = async id => {
