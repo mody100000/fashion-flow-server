@@ -41,13 +41,13 @@ const getProductReport = async (req, res) => {
     res.json(report)
 }
 
-const updateCategory = async(req , res) => {
+const updateProduct = async (req, res) => {
     const { success, error, value } = validateCreateProductInput(
         req.body
     ).validate()
     if (!success) return errorHandler(error, res)
 
-   const p = await productService.updateProduct(req.params.id , value)
+    const p = await productService.updateProduct(req.params.id, value)
     res.json(p)
 }
 
@@ -57,5 +57,5 @@ module.exports = {
     product,
     deleteProduct,
     getProductReport,
-    updateCategory
+    updateProduct,
 }

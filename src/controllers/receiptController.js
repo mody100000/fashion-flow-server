@@ -36,9 +36,20 @@ const deleteReceipt = async (req, res) => {
     res.json(deleteReceipt)
 }
 
+const updateReceipt = async (req, res) => {
+    const { success, error, value } = validateCreateReceiptInput(
+        req.body
+    ).validate()
+    if (!success) return errorHandler(error, res)
+
+    const r = await receiptService.updateReceipt(req.params.id, value)
+    res.json(r)
+}
+
 module.exports = {
     createReceipt,
     receipts,
     receipt,
     deleteReceipt,
+    updateReceipt,
 }

@@ -26,9 +26,15 @@ const deleteReceipt = async id => {
     return deleteReceipt
 }
 
+const updateReceipt = async (id, data) => {
+    const receipt = await Receipt.findOneAndUpdate({ _id: id }, data)
+    return receipt
+}
+
 module.exports = {
     createReceipt,
     getAllReceipts,
     getReceipt,
     deleteReceipt,
+    updateReceipt,
 }
