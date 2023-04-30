@@ -3,6 +3,7 @@ const BaseValidator = require('./BaseValidator')
 const { PRODUCT_SIZES } = require('../constant')
 
 const schema = Joi.object({
+    number: Joi.string().required(),
     customer: Joi.string().required(),
     products: Joi.array()
         .required()
