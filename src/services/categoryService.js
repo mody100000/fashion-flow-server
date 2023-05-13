@@ -25,6 +25,8 @@ const getAllCategories = async () => {
                 _id: 1,
                 label: 1,
                 icon: 1,
+                createdAt: 1,
+                updatedAt: 1,
                 productsCount: { $size: '$products' },
             },
         },

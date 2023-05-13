@@ -22,6 +22,10 @@ const ReceiptSchema = new mongoose.Schema(
                     type: String,
                     enum: PRODUCT_SIZES,
                 },
+                itemsNumber: {
+                    type: Number,
+                    default: 1,
+                },
                 discount: {
                     type: Number,
                     default: 0,

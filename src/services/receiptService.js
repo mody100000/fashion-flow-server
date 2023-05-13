@@ -8,7 +8,9 @@ const createReceipt = async input => {
 }
 
 const getAllReceipts = async () => {
-    const receipts = await Receipt.find().sort({ createdAt: -1 })
+    const receipts = await Receipt.find()
+        .sort({ createdAt: -1 })
+        .populate('customer')
     return receipts
 }
 
