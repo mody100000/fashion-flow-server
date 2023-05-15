@@ -11,6 +11,7 @@ const getAllReceipts = async () => {
     const receipts = await Receipt.find()
         .sort({ createdAt: -1 })
         .populate('customer')
+        .populate('products.product')
     return receipts
 }
 
