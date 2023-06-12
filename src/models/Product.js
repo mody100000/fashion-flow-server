@@ -1,20 +1,12 @@
 const mongoose = require('mongoose')
 const { PRODUCT_SIZES } = require('../constant')
 
-// TODO: create reviews model
 const ProductSchema = new mongoose.Schema(
     {
         name: {
             type: String,
             required: true,
         },
-        images: [
-            {
-                src: { type: String, required: true },
-                color: { type: String, required: false },
-                description: { type: String, required: false },
-            },
-        ],
         price: {
             type: Number,
             required: true,

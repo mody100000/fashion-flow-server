@@ -4,6 +4,7 @@ const { PRODUCT_SIZES } = require('../constant')
 
 const schema = Joi.object({
     customer: Joi.string().required(),
+    price: Joi.number().required(),
     products: Joi.array()
         .required()
         .min(1)
