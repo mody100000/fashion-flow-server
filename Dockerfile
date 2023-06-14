@@ -11,6 +11,7 @@ RUN apt-get update \
 
 
 RUN apt-get install -y gnupg2 lsb-release \
+  && wget -O - https://packages.adoptium.net/artifactory/api/gpg/key/public | apt-key add - \
   && curl --silent --show-error --location https://www.mongodb.org/static/pgp/server-5.0.asc | apt-key add - \
   && echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-5.0.list \
 #   && wget --no-check-certificate --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
