@@ -1,7 +1,7 @@
 FROM ubuntu:20.04
 
 
-WORKDIR /app
+# WORKDIR /app
 
 
 # Update APT packages - Base Layer
