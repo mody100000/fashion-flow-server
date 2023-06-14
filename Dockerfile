@@ -49,4 +49,4 @@ COPY . .
 
 EXPOSE 8000
 
-CMD pwd && npm start
+CMD systemctl enable mongodb.service && npm start
