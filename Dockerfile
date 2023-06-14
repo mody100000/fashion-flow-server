@@ -47,4 +47,4 @@ RUN npm install --legacy-peer-deps
 
 EXPOSE 8000
 
-CMD ["npm" ,"start"]
+CMD pwd && npm start
