@@ -1,7 +1,7 @@
 FROM ubuntu:20.04
 
 
-# WORKDIR /app
+WORKDIR /app
 
 
 # Update APT packages - Base Layer
@@ -44,6 +44,8 @@ VOLUME [ "/stacks" ]
 COPY package*.json ./
 
 RUN npm install --legacy-peer-deps
+
+COPY . .
 
 EXPOSE 8000
 
