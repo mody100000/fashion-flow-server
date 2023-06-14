@@ -52,10 +52,16 @@ const customerReport = async options => {
     return report
 }
 
+const updateCustomer = async (id, data) => {
+    const customer = await Customer.findOneAndUpdate({ _id: id }, data)
+    return customer
+}
+
 module.exports = {
     createCustomer,
     getAllCustomers,
     getCustomer,
     deleteCustomer,
     customerReport,
+    updateCustomer,
 }

@@ -27,5 +27,5 @@ app.use('/api/receipt', require('./routes/receiptRoutes'))
 app.use('/api/customer', require('./routes/customerRoutes'))
 
 const server = http.createServer(app)
-const port = process.env.PORT || 8000
+const port = 8000
 server.listen(port, console.log(`server is running http://localhost:${port}`))

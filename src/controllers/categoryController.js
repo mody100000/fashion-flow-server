@@ -29,11 +29,17 @@ const category = async (req, res) => {
 }
 
 const deleteCategory = async (req, res) => {
-    const catId = req.params.id
-    const deletedCategory = await categoryService.deleteCategory(catId)
-    if (!deletedCategory)
-        return res.status(404).json({ msg: 'category not found' })
-    res.json(deletedCategory)
+    try {
+        const catId = req.params.id
+        const deletedCategory = await categoryService.deleteCategory(catId)
+
+        if (!deletedCategory)
+            return res.status(404).json({ msg: 'category not found' })
+
+        res.json(deletedCategory)
+    } catch (err) {
+        errorHandler(err, res)
+    }
 }
 const getCategoryReport = async (req, res) => {
     const { error, value } = validateReport(req.params).validate()
@@ -43,10 +49,21 @@ const getCategoryReport = async (req, res) => {
     })
     res.json(report)
 }
+
+const updateCategory = async (req, res) => {
+    const { success, error, value } = validateCreateCategoryInput(
+        req.body
+    ).validate()
+    if (!success) return errorHandler(error, res)
+
+    const c = await categoryService.updateCategory(req.params.id, value)
+    res.json(c)
+}
 module.exports = {
     createCategory,
     categories,
     category,
     deleteCategory,
     getCategoryReport,
+    updateCategory,
 }

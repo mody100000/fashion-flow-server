@@ -1,4 +1,6 @@
 const Category = require('../models/Category')
+const Product = require('../models/Product')
+const ErrorResponse = require('../utils/ErrorResponse')
 const isValidObjectId = require('../utils/isValidObjectId')
 const _ = require('lodash')
 const moment = require('moment')
@@ -9,8 +11,28 @@ const createCategory = async input => {
 }
 
 const getAllCategories = async () => {
-    const categories = await Category.find().sort('name')
-    return categories
+    const categoriesWithProductsCount = await Category.aggregate([
+        {
+            $lookup: {
+                from: 'products',
+                localField: '_id',
+                foreignField: 'category',
+                as: 'products',
+            },
+        },
+        {
+            $project: {
+                _id: 1,
+                label: 1,
+                icon: 1,
+                createdAt: 1,
+                updatedAt: 1,
+                productsCount: { $size: '$products' },
+            },
+        },
+    ])
+
+    return categoriesWithProductsCount
 }
 
 const getCategory = async id => {
@@ -22,6 +44,12 @@ const getCategory = async id => {
 
 const deleteCategory = async id => {
     if (!isValidObjectId(id)) return null
+
+    const products = await Product.find().where('category').equals(id)
+
+    if (products.length > 0)
+        throw new ErrorResponse("you can't delete this category", 400)
+
     const deletedCategory = await Category.findByIdAndRemove(id)
     if (!deletedCategory) return null
     return deletedCategory
@@ -50,10 +78,16 @@ const categoryReport = async options => {
 
     return report
 }
+
+const updateCategory = async (id, data) => {
+    const category = await Category.findOneAndUpdate({ _id: id }, data)
+    return category
+}
 module.exports = {
     createCategory,
     getAllCategories,
     getCategory,
     deleteCategory,
     categoryReport,
+    updateCategory,
 }

@@ -46,10 +46,21 @@ const getCustomerReport = async (req, res) => {
     res.json(report)
 }
 
+const updateCustomer = async (req, res) => {
+    const { success, error, value } = validateCreateCustomerInput(
+        req.body
+    ).validate()
+    if (!success) return errorHandler(error, res)
+
+    const c = await customerServies.updateCustomer(req.params.id, value)
+    res.json(c)
+}
+
 module.exports = {
     createCustomer,
     customers,
     customer,
     deleteCustomer,
     getCustomerReport,
+    updateCustomer,
 }
