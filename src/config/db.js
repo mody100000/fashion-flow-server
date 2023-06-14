@@ -1,15 +1,14 @@
 const mongoose = require('mongoose')
-const { DB_PASSWORD, DB_USERNAME } = process.env
-const uri = `mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}@cluster0.h2j8y.mongodb.net/?retryWrites=true&w=majority`
+const { DB_URI } = process.env
 
 mongoose.set('strictQuery', false)
 mongoose
-  .connect(uri, {
+  .connect(DB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     sslValidate: true,
   })
-  .then(() => {
+  .then(async() => {
     console.log('database is connected'.green)
   })
   .catch(err => {
